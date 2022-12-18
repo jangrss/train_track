@@ -1,0 +1,112 @@
+
+# Screen to register on the application as trainer (main.py: RegistrationScreenTrainer)
+<RegistrationScreenTrainer>
+    FloatLayout:
+        # Background color
+        canvas:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                source: "graphics/background/background_trainer.png"
+
+        Image: # TrainTrack Logo
+            pos_hint: {"top": 1, "right": .9}
+            size_hint: .75, .37
+            source: "graphics/logo/LogoText_reduced.png"
+
+        # Screen name
+        Label:
+            text: "REGISTRATION SCREEN TRAINER"
+            pos_hint: {"top": .66, "right": 1}
+            size_hint: 1, .05
+            font_size: '20sp'
+            canvas.before:
+                Color:
+                    rgba: [0,100,100,.25]
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+        TextInput: # input field first name of trainer
+            id: first_name_trainer
+            hint_text: "Enter First Name of Trainer"
+            pos_hint: {"top": .58, "right": .89}
+            size_hint: .78, .08
+            use_bubble: True
+            use_handles: True
+            font_size: '15sp'
+            multiline: False
+            background_color: 0, 0, 0, 0
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Line:
+                    points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                    width: 1
+
+        TextInput: # input field last name of trainer
+            id: last_name_trainer
+            hint_text: "Enter Last Name of Trainer"
+            pos_hint: {"top": .47, "right": .89}
+            size_hint: .78, .08
+            use_bubble: True
+            use_handles: True
+            font_size: '15sp'
+            multiline: False
+            background_color: 0, 0, 0, 0
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Line:
+                    points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                    width: 1
+
+        TextInput: # input field login email address of trainer
+            id: login_email
+            hint_text: "Enter Trainer Email"
+            pos_hint: {"top": .36, "right": .89}
+            size_hint: .78, .08
+            use_bubble: True
+            use_handles: True
+            font_size: '15sp'
+            multiline: False
+            background_color: 0, 0, 0, 0
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Line:
+                    points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                    width: 1
+
+        TextInput: # input field team name of trainer
+            id: team_name
+            hint_text: "Enter Team Name"
+            pos_hint: {"top": .25, "right": .89}
+            size_hint: .78, .08
+            use_bubble: True
+            use_handles: True
+            font_size: '15sp'
+            multiline: False
+            background_color: 0, 0, 0, 0
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Line:
+                    points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                    width: 1
+
+        # Buttons "GET STARTED" and "Cancel"
+        GridLayout:
+            cols: 1
+            pos_hint: {"top": .17, "right": .89}
+            size_hint: .78, .18
+            ImageButton:
+                source: "graphics/buttons/get_started_trainer.png" if self.state == 'normal' else "graphics/buttons/get_started_trainer_grau.png"
+                on_release:
+                    root.get_started()
+            LabelButton:
+                text: "CANCEL" if self.state == 'normal' else "[u]CANCEL[/u]"
+                markup: True
+                on_release:
+                    app.change_screen("home_screen",CardTransition(direction='up',duration=.3))
+                    root.reset_data()

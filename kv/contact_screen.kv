@@ -1,0 +1,69 @@
+
+# Screen to contact developers (main.py: ContactScreen)
+<ContactScreen>:
+    FloatLayout:
+        # background image
+        canvas:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                source: "graphics/background/background_main.png"
+
+        Image:  # TrainTrack logo
+            pos_hint: {"top": 1, "right": .9}
+            size_hint: .75, .37
+            source: "graphics/logo/LogoText.png"
+
+        Label:  # display application name
+            text: "[b]TrainTrack[/b]\n"
+            markup: True
+            halign: 'center'
+            pos_hint: {"top": 1, "right": .99}
+            size_hint: 1, .83
+            font_size: '22sp'
+
+        Label:  # display version
+            text: "Version 1.0\n\n"
+            markup: True
+            halign: 'center'
+            pos_hint: {"top": 1, "right": .99}
+            size_hint: 1, .95
+            font_size: '15sp'
+
+        GridLayout:
+            pos_hint: {"top": .5, "right":.35}
+            size_hint: .2,.2
+            rows: 3
+            cols: 1
+
+            ImageButton:  # send mail to jan (letter)
+                id: mail_jan
+                source: "graphics/buttons/mail_grau.png" if self.state == 'down' or label_jan.state == 'down' else "graphics/buttons/mail.png"
+                on_release:
+                    root.mail_jan()  # call method in SettingScreen
+
+        GridLayout:
+            rows: 3
+            cols: 1
+            pos_hint: {"top": .5, "right":.65}
+            size_hint: .2,.2
+
+            LabelButton:  # send mail to jan
+                id: label_jan
+                text: "[b]Jan[/b]" if self.state == 'normal' else "[b][u]Jan[/u][/b]"
+                font_size: '14sp'
+                markup: True
+                on_press:
+                    mail_jan.source = "graphics/buttons/mail_grau.png"
+                on_release:
+                    root.mail_jan()
+
+        GridLayout:
+            cols: 1
+            pos_hint: {"top": .1, "right": 0.99}
+            size_hint: .4, .1
+
+            ImageButton:  # go back to HomeScreen
+                source: "graphics/buttons/go_back.png" if self.state == 'normal' else "graphics/buttons/go_back_grau.png"
+                on_release:
+                    app.change_screen("home_screen",CardTransition(direction='up',duration=.3))

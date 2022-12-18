@@ -1,0 +1,40 @@
+
+# Screen shown when starting application (main.py: HomeScreen)
+<HomeScreen>:
+    FloatLayout:
+        # background image
+        canvas:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                source: "graphics/background/background_main.png"
+
+        Image:  # TrainTrack logo
+            pos_hint: {"top": 1, "right": .9}
+            size_hint: .75, .37
+            source: "graphics/logo/LogoText.png"
+
+        GridLayout:
+            cols: 1
+            pos_hint: {"top": .56, "right": .89}
+            size_hint: .78, .25
+
+            ImageButton:  # change to LoginScreenTrainer
+                source: "graphics/buttons/login_trainer.png" if self.state == 'normal' else "graphics/buttons/login_trainer_grau.png"
+                on_release:
+                    app.change_screen("login_screen_trainer",CardTransition(direction='up',duration=.3))
+
+            ImageButton:  # change to LoginScreenAthlete
+                source: "graphics/buttons/login_athlete.png" if self.state == 'normal' else "graphics/buttons/login_athlete_grau.png"
+                on_release:
+                    app.change_screen("login_screen_athlete", CardTransition(direction='up',duration=.3))
+
+        GridLayout:
+            cols: 1
+            pos_hint: {"top": .1, "right": 0.99}
+            size_hint: .4, .1
+
+            ImageButton:  # change to ContactScreen
+                source: "graphics/buttons/contact.png" if self.state == 'normal' else "graphics/buttons/contact_grau.png"
+                on_release:
+                    app.change_screen("contact_screen", CardTransition(direction='up',duration=.3))

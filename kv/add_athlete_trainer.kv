@@ -1,0 +1,163 @@
+# Screen to add a new athlete into the own team  (main.py: AddAthleteTrainer)
+<AddAthleteTrainer>:
+   # load the next available ID for a new athlete before entering the page
+    on_pre_enter:
+        root.get_free_id()
+    FloatLayout:
+        # Background color
+        canvas:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                source: "graphics/background/background_trainer.png"
+
+        # Display of ID of Athlete, input fields and BMI
+        GridLayout:
+            rows: 8
+            pos_hint: {"top": 1, "right": 1}
+            size_hint: 1, .85
+            GridLayout:
+                cols: 2
+                Label: # display text "ID of Athlete:"
+                    id: text_id_athlete
+                    text: "ID of Athlete:"
+                    canvas.before:
+                        Color:
+                            rgba: [0,100,100,.25]
+                        Rectangle:
+                            pos: self.pos
+                            size:self.size
+                Label: # display ID of athlete as integer value
+                    id: id_athlete
+                    text: ""
+                    canvas.before:
+                        Color:
+                            rgba: [0,100,100,.25]
+                        Rectangle:
+                            pos: self.pos
+                            size:self.size
+
+            SpinnerWidget: # selection of gender
+                id: gender_athlete
+                text: 'Select Gender of Athlete'
+                background_normal: 'graphics/buttons/dropdown_trainer.png'
+                background_down: 'graphics/buttons/dropdown_trainer_grau.png'
+
+            TextInput: # input field first name of athlete
+                id: first_name_athlete
+                hint_text: "First Name of Athlete"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=30), self.x + self.width - dp(value=5), self.y + dp(value=30)
+                        width: 1
+
+            TextInput: # input field last name of athlete
+                id: last_name_athlete
+                hint_text: "Last Name of Athlete"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=30), self.x + self.width - dp(value=5), self.y + dp(value=30)
+                        width: 1
+
+            TextInput: # input field email address of athlete
+                id: email_athlete
+                hint_text: "Email Address of Athlete"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=30), self.x + self.width - dp(value=5), self.y + dp(value=30)
+                        width: 1
+
+            SpinnerWidget: # selection height of athlete
+                id: height_athlete
+                text: 'Input Height of Athlete'
+                background_normal: 'graphics/buttons/dropdown_trainer.png'
+                background_down: 'graphics/buttons/dropdown_trainer_grau.png'
+                on_text:
+                    root.calculate_bmi() if self.text != 'Input Height of Athlete' else print('')
+
+            SpinnerWidget: # selection weight of athlete
+                id: weight_athlete
+                text: 'Input Weight of Athlete'
+                background_normal: 'graphics/buttons/dropdown_trainer.png'
+                background_down: 'graphics/buttons/dropdown_trainer_grau.png'
+                on_text:
+                    root.calculate_bmi() if self.text != 'Input Weight of Athlete' else print('')
+
+            Label: # display of BMI
+                id: bmi_athlete
+                text: "Enter Height and Weight\nto calculate Body-Mass-Index"
+                valign: 'middle'
+                halign: 'center'
+                canvas.before:
+                    Color:
+                        rgba: [0,100,100,.25]
+                    Rectangle:
+                        pos: self.pos
+                        size:self.size
+
+        # Submit button
+        ImageButton
+            id: submit_button
+            source: "graphics/buttons/submit1.png" if self.state == 'normal' else "graphics/buttons/submit1_grau.png"
+            pos_hint: {"top": .22, "right": 1}
+            size_hint: 1, .2
+            on_release:
+                root.check_data()
+
+        # Navigation Bar Background
+        GridLayout:
+            rows: 1
+            pos_hint: {"top": .0925, "right": 1}
+            size_hint: 1, .1
+            LabelButton:
+                canvas.before:
+                    Color:
+                        rgb: utils.get_color_from_hex("#fafafa")
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        # Navigation Bar (5 Image Buttons)
+        GridLayout:
+            cols: 5
+            pos_hint: {"top": .0825, "right": 1}
+            size_hint: 1, .0725
+            ImageButton:
+                source: "graphics/navigation/add_workout_trainer_grau.png" if self.state == 'normal' else "graphics/navigation/add_workout_trainer_grau_down.png"
+                on_release:
+                    app.change_screen("add_workout_trainer", NoTransition())
+            ImageButton:
+                source: "graphics/navigation/edit_workout_trainer_grau.png" if self.state == 'normal' else "graphics/navigation/edit_workout_trainer_grau_down.png"
+                on_release:
+                    app.change_screen("edit_workout_trainer", NoTransition())
+            ImageButton:
+                source: "graphics/navigation/add_athlete_trainer.png"
+            ImageButton:
+                source: "graphics/navigation/edit_athlete_trainer_grau.png" if self.state == 'normal' else "graphics/navigation/edit_athlete_trainer_grau_down.png"
+                on_release:
+                    app.change_screen("edit_athlete_trainer", NoTransition())
+            ImageButton:
+                source: "graphics/navigation/back_trainer_grau.png" if self.state == 'normal' else "graphics/navigation/back_trainer_grau_down.png"
+                on_release:
+                    app.change_screen("main_screen_trainer",CardTransition(direction='up',duration=.3))

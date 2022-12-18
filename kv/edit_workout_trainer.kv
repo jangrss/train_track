@@ -1,0 +1,140 @@
+
+# Screen to edit a pre-existing training or exercise (main.py: EditWorkoutTrainer)
+<EditWorkoutTrainer>:
+    FloatLayout:
+        # Background color
+        canvas:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                source: "graphics/background/background_trainer.png"
+
+        # Display of ID and input fields
+        GridLayout:
+            cols: 1
+            size_hint: 1, .15
+            pos_hint: {"top": 1, "right": 1}
+            GridLayout:
+                cols: 2
+                SpinnerWidget:
+                    id: select_training
+                    text: "Select Training"
+                    background_normal: 'graphics/buttons/dropdown_trainer_2.png'
+                    background_down: 'graphics/buttons/dropdown_trainer_2_grau.png'
+                    on_text:
+                        root.block_select_exercise() if self.text != "Select Training" else print('')
+                SpinnerWidget:
+                    id: select_exercise
+                    text: "Select Exercise"
+                    background_normal: 'graphics/buttons/dropdown_trainer_2.png'
+                    background_down: 'graphics/buttons/dropdown_trainer_2_grau.png'
+                    on_text:
+                        root.block_select_training() if self.text != "Select Exercise" else print('')
+
+            GridLayout:
+                cols: 2
+                Label: # display ID training or exercise
+                    id: text_id_workout
+                    text: "ID of Workout:"
+                    canvas.before:
+                        Color:
+                            rgba: [0,100,100,.25]
+                        Rectangle:
+                            pos: self.pos
+                            size:self.size
+                Label:
+                    id: id_workout
+                    text: ""
+                    canvas.before:
+                        Color:
+                            rgba: [0,100,100,.25]
+                        Rectangle:
+                            pos: self.pos
+                            size:self.size
+
+        TextInput:
+            id: name_workout # input field name of workout
+            size_hint: 1, .065
+            pos_hint: {"top": .75, "right": 1}
+            hint_text: "Name of Workout"
+            use_bubble: True
+            use_handles: True
+            font_size: '14sp'
+            multiline: False
+            background_color: 0, 0, 0, 0
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Line:
+                    points: self.x + dp(value=5), self.y + dp(value=0), self.x + self.width - dp(value=5), self.y + dp(value=0)
+                    width: 1
+        TextInput:
+            id: description_workout # input field description of workout
+            size_hint: 1, .35
+            pos_hint: {"top": .678, "right": 1}
+            hint_text: "Description of Workout"
+            use_bubble: True
+            use_handles: True
+            font_size: '14sp'
+            multiline: True
+            background_color: 0, 0, 0, 0
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Line:
+                    points: self.x + dp(value=5), self.y + dp(value=0), self.x + self.width - dp(value=5), self.y + dp(value=0)
+                    width: 1
+
+        # Delete and Update button
+        GridLayout:
+            cols: 3
+            pos_hint: {"top": .22, "right": 1}
+            size_hint: 1, .2
+            ImageButton:
+                source: "graphics/buttons/delete3.png" if self.state == 'normal' else "graphics/buttons/delete3_grau.png"
+                on_release:
+                    root.check_data_delete()
+            ImageButton:
+                source: "graphics/buttons/update3.png" if self.state == 'normal' else "graphics/buttons/update3_grau.png"
+                on_release:
+                    root.check_data_update()
+            ImageButton:
+                source: "graphics/buttons/undo3.png" if self.state == 'normal' else "graphics/buttons/undo3_grau.png"
+                id: undo_selection
+                on_release:
+                    root.undo_selection()
+
+        # Navigation Bar Background
+        LabelButton:
+            pos_hint: {"top": .0925, "right": 1}
+            size_hint: 1, .1
+            canvas.before:
+                Color:
+                    rgb: utils.get_color_from_hex("#fafafa")
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+        # Navigation Bar (5 Image Buttons)
+        GridLayout:
+            cols: 5
+            pos_hint: {"top": .0825, "right": 1}
+            size_hint: 1, .0725
+            ImageButton:
+                source: "graphics/navigation/add_workout_trainer_grau.png" if self.state == 'normal' else "graphics/navigation/add_workout_trainer_grau_down.png"
+                on_release:
+                    app.change_screen("add_workout_trainer", NoTransition())
+            ImageButton:
+                source: "graphics/navigation/edit_workout_trainer.png"
+            ImageButton:
+                source: "graphics/navigation/add_athlete_trainer_grau.png" if self.state == 'normal' else "graphics/navigation/add_athlete_trainer_grau_down.png"
+                on_release:
+                    app.change_screen("add_athlete_trainer", NoTransition())
+            ImageButton:
+                source: "graphics/navigation/edit_athlete_trainer_grau.png" if self.state == 'normal' else "graphics/navigation/edit_athlete_trainer_grau_down.png"
+                on_release:
+                    app.change_screen("edit_athlete_trainer", NoTransition())
+            ImageButton:
+                source: "graphics/navigation/back_trainer_grau.png" if self.state == 'normal' else "graphics/navigation/back_trainer_grau_down.png"
+                on_release:
+                    app.change_screen("main_screen_trainer",CardTransition(direction='up',duration=.3))

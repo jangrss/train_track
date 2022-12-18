@@ -1,0 +1,49 @@
+
+# Screen with all sub-screens for athlete, shown after successful login (main.py: MainScreenAthlete)
+<MainScreenAthlete>:
+    FloatLayout:
+        # background image
+        canvas:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                source: "graphics/background/background_athlete.png"
+
+        Image:  # TrainTrack logo
+            source: "graphics/logo/LogoText_reduced.png"
+            pos_hint: {"top": 1, "right": .9}
+            size_hint: .75, .37
+
+        Label:  # screen name
+            text: "MAIN SCREEN ATHLETE"
+            pos_hint: {"top": .66, "right": 1}
+            size_hint: 1, .05
+            font_size: '20sp'
+            canvas.before:
+                Color:
+                    rgba: [0,100,100,.25]
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+        ImageButton:  # change to sub-screen TrackWorkoutAthlete
+            source: "graphics/buttons/track_workout_athlete.png" if self.state == 'normal' else "graphics/buttons/track_workout_athlete_grau.png"
+            pos_hint: {"top": .53, "right": .89}
+            size_hint: .78, .1
+            on_release:
+                app.change_screen("track_workout_athlete",CardTransition(direction='up',duration=.3))  # change to TrackWorkoutAthlete
+
+        ImageButton:  # change to sub-screen EditAthleteAthlete
+            source: "graphics/buttons/edit_athlete_athlete.png" if self.state == 'normal' else "graphics/buttons/edit_athlete_athlete_grau.png"
+            pos_hint: {"top": .42, "right": .89}
+            size_hint: .78, .1
+            on_release:
+                app.change_screen("edit_athlete_athlete", CardTransition(direction='up',duration=.3))  # change to EditAthleteAthlete
+
+        ImageButton:  # logout
+            source: "graphics/buttons/logout_athlete.png" if self.state == 'normal' else "graphics/buttons/logout_athlete_grau.png"
+            pos_hint: {"top": .127, "right": 1}
+            size_hint: 1, .2
+            on_release:
+                root.logout_reset()  # call method in MainScreenAthlete in main.py
+                app.change_screen("home_screen",CardTransition(direction='up',duration=.3))  # change to HomeScreen

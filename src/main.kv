@@ -1,0 +1,75 @@
+# -*- coding: utf-8 -*-
+
+# import of modules
+#:import utils kivy.utils
+#:import C kivy.utils.get_color_from_hex
+#:import NoTransition kivy.uix.screenmanager.NoTransition
+#:import CardTransition kivy.uix.screenmanager.CardTransition
+
+# import of all Kv-Files for the screens
+#:include force kv/home_screen.kv
+#:include force kv/contact_screen.kv
+#:include force kv/registration_screen_trainer.kv
+#:include force kv/forgot_password_trainer.kv
+#:include force kv/forgot_password_athlete.kv
+#:include force kv/login_screen_trainer.kv
+#:include force kv/main_screen_trainer.kv
+#:include force kv/add_workout_trainer.kv
+#:include force kv/edit_workout_trainer.kv
+#:include force kv/add_athlete_trainer.kv
+#:include force kv/edit_athlete_trainer.kv
+#:include force kv/login_screen_athlete.kv
+#:include force kv/main_screen_athlete.kv
+#:include force kv/track_workout_athlete.kv
+#:include force kv/edit_athlete_athlete.kv
+
+# references to all screens in screenmanager
+GridLayout:
+    cols: 1
+    ScreenManager:
+        id: screen_manager
+        HomeScreen:
+            name: "home_screen"
+            id: home_screen
+        ContactScreen:
+            name: "contact_screen"
+            id: contact_screen
+        RegistrationScreenTrainer:
+            name: "registration_screen_trainer"
+            id: registration_screen_trainer
+        ForgotPasswordTrainer:
+            name: "forgot_password_trainer"
+            id: forgot_password_trainer
+        ForgotPasswordAthlete:
+            name: "forgot_password_athlete"
+            id: forgot_password_athlete
+        LoginScreenTrainer:
+            name: "login_screen_trainer"
+            id: login_screen_trainer
+        MainScreenTrainer:
+            name: "main_screen_trainer"
+            id: main_screen_trainer
+        AddWorkoutTrainer:
+            name: "add_workout_trainer"
+            id: add_workout_trainer
+        EditWorkoutTrainer:
+            name: "edit_workout_trainer"
+            id: edit_workout_trainer
+        AddAthleteTrainer:
+            name: "add_athlete_trainer"
+            id: add_athlete_trainer
+        EditAthleteTrainer:
+            name: "edit_athlete_trainer"
+            id: edit_athlete_trainer
+        LoginScreenAthlete:
+            name: "login_screen_athlete"
+            id: login_screen_athlete
+        MainScreenAthlete:
+            name: "main_screen_athlete"
+            id: main_screen_athlete
+        TrackWorkoutAthlete:
+            name: "track_workout_athlete"
+            id: track_workout_athlete
+        EditAthleteAthlete:
+            name: "edit_athlete_athlete"
+            id: edit_athlete_athlete

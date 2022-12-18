@@ -1,0 +1,205 @@
+
+# Screen that allows the trainer to add a new training or exercise for athletes of the own team
+# (main.py: AddWorkoutTrainer)
+<AddWorkoutTrainer>:
+    FloatLayout:
+        # Background Color
+        canvas:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                source: "graphics/background/background_trainer.png"
+
+        GridLayout:
+            cols: 1
+            size_hint: 1, .4
+            pos_hint: {"top": 1, "right": 1}
+            GridLayout:
+                cols: 1
+                size_hint: 1, .5
+                SpinnerWidget: # selection of exercise or training
+                    id: select_workout_add
+                    text: "Select Workout to add"
+                    values: ('Training', 'Exercise')
+                    background_normal: 'graphics/buttons/dropdown_trainer.png'
+                    background_down: 'graphics/buttons/dropdown_trainer_grau.png'
+                    on_text:
+                        root.reveal_spinner()
+                SpinnerWidget: # drop-down menus for exercise or training
+                    id: select_training_add
+                    text: "Select Training of Exercise"
+                    background_normal: 'graphics/buttons/dropdown_trainer.png'
+                    background_down: 'graphics/buttons/dropdown_trainer_grau.png'
+                    disabled: True
+                    on_text:
+                        root.reveal_spinner()
+
+            GridLayout:
+                cols: 2
+                size_hint: 1, .20
+                #ID of Training
+                Label: # display of text "ID of Workout"
+                    id: text_id_workout
+                    text: "ID of Workout:"
+                    canvas.before:
+                        Color:
+                            rgba: [0,100,100,.25]
+                        Rectangle:
+                            pos: self.pos
+                            size:self.size
+                Label: # display of ID of Workout as integer value
+                    id: id_workout
+                    text: ""
+                    canvas.before:
+                        Color:
+                            rgba: [0,100,100,.25]
+                        Rectangle:
+                            pos: self.pos
+                            size:self.size
+
+            GridLayout:
+                rows: 2
+                size_hint: 1, .30
+                GridLayout:
+                    cols: 4
+                    Label: # display of the text "Sets"
+                        text: 'Sets'
+                    Label: # display of the text "Reps"
+                        text: 'Reps'
+                    Label: # display of the text "Weight"
+                        text: 'Weight'
+                    Label: # display of the text "Distance"
+                        text: 'Distance'
+                GridLayout:
+                    cols: 4
+                    CheckBox: # display of the checkbox "Sets"
+                        id: check_sets
+                        canvas.before:
+                            Color:
+                                rgb: utils.get_color_from_hex("#c20000") if self.disabled == True else utils.get_color_from_hex("#00c206")
+                            Ellipse:
+                                pos:self.center_x-dp(value=9), self.center_y-dp(value=9)
+                                size:[dp(value=18),dp(value=18)]
+                        color: [0,.69,.62,1]
+                        group: "sets"
+                        text: "sets"
+                        disabled: True
+
+                    CheckBox: # display of the checkbox "Reps"
+                        id: check_reps
+                        canvas.before:
+                            Color:
+                                rgb: utils.get_color_from_hex("#c20000") if self.disabled == True else utils.get_color_from_hex("#00c206")
+                            Ellipse:
+                                pos:self.center_x-dp(value=9), self.center_y-dp(value=9)
+                                size:[dp(value=18),dp(value=18)]
+                        color: [0,.69,.62,1]
+                        group: "reps"
+                        text: "reps"
+                        disabled: True
+
+                    CheckBox: # display of the checkbox "Weight"
+                        id: check_weight
+                        canvas.before:
+                            Color:
+                                rgb: utils.get_color_from_hex("#c20000") if self.disabled == True else utils.get_color_from_hex("#00c206")
+                            Ellipse:
+                                pos:self.center_x-dp(value=9), self.center_y-dp(value=9)
+                                size:[dp(value=18),dp(value=18)]
+                        color: [0,.69,.62,1]
+                        group: "weight"
+                        text: "weight"
+                        disabled: True
+
+                    CheckBox: # display of the checkbox "Distance"
+                        id: check_distance
+                        canvas.before:
+                            Color:
+                                rgb: utils.get_color_from_hex("#c20000") if self.disabled == True else utils.get_color_from_hex("#00c206")
+                            Ellipse:
+                                pos:self.center_x-dp(value=9), self.center_y-dp(value=9)
+                                size:[dp(value=18),dp(value=18)]
+                        color: [0,.69,.62,1]
+                        group: "distance"
+                        text: "distance"
+                        disabled: True
+        GridLayout:
+            rows: 2
+            size_hint: 1, .4
+            pos_hint: {"top": .6, "right": 1}
+
+            TextInput:  # input field for name of workout
+                id: name_workout
+                size_hint: 1, .15
+                hint_text: "Name of Workout"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=0), self.x + self.width - dp(value=5), self.y + dp(value=0)
+                        width: 1
+
+            TextInput: # input field for description of workout
+                id: description_workout
+                size_hint: 1, .85
+                hint_text: "Description of Workout"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: True
+                background_color: 0, 0, 0, 0
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=0), self.x + self.width - dp(value=5), self.y + dp(value=0)
+                        width: 1
+
+        # Submit button
+        ImageButton
+            id: submit_button
+            source: "graphics/buttons/submit1.png" if self.state == 'normal' else "graphics/buttons/submit1_grau.png"
+            pos_hint: {"top": .22, "right": 1}
+            size_hint: 1, .2
+            on_release:
+                root.submit_workout()
+
+        # Navigation Bar Background
+        LabelButton:
+            pos_hint: {"top": .0925, "right": 1}
+            size_hint: 1, .1
+            canvas.before:
+                Color:
+                    rgb: utils.get_color_from_hex("#fafafa")
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+        # Navigation Bar (5 Image Buttons)
+        GridLayout:
+            cols: 5
+            pos_hint: {"top": .0825, "right": 1}
+            size_hint: 1, .0725
+            ImageButton:
+                source: "graphics/navigation/add_workout_trainer.png"
+            ImageButton:
+                source: "graphics/navigation/edit_workout_trainer_grau.png" if self.state == 'normal' else "graphics/navigation/edit_workout_trainer_grau_down.png"
+                on_release:
+                    app.change_screen('edit_workout_trainer', NoTransition())
+            ImageButton:
+                source: "graphics/navigation/add_athlete_trainer_grau.png" if self.state == 'normal' else "graphics/navigation/add_athlete_trainer_grau_down.png"
+                on_release:
+                    app.change_screen("add_athlete_trainer", NoTransition())
+            ImageButton:
+                source: "graphics/navigation/edit_athlete_trainer_grau.png" if self.state == 'normal' else "graphics/navigation/edit_athlete_trainer_grau_down.png"
+                on_release:
+                    app.change_screen("edit_athlete_trainer", NoTransition())
+            ImageButton:
+                source: "graphics/navigation/back_trainer_grau.png" if self.state == 'normal' else "graphics/navigation/back_trainer_grau_down.png"
+                on_release:
+                    app.change_screen("main_screen_trainer",CardTransition(direction='up',duration=.3))

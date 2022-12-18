@@ -1,0 +1,177 @@
+
+# Screen to edit data of athlete (main.py: EditAthleteAthlete)
+<EditAthleteAthlete>:
+    on_pre_enter:
+        root.load()  # load data of athlete before screen is displayed
+
+    FloatLayout:
+        # background image
+        canvas:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                source: "graphics/background/background_athlete.png"
+
+        GridLayout:
+            cols: 1
+            pos_hint: {"top": 1, "right": 1}
+            size_hint: 1, .85
+
+            Label:  # display ID of Athlete
+                id: id_athlete
+                text: "ID of Athlete"
+                canvas.before:
+                    Color:
+                        rgba: [0,100,100,.25]
+                    Rectangle:
+                        pos: self.pos
+                        size:self.size
+
+            SpinnerWidget:  # select gender
+                id: gender_athlete
+                text: 'Gender of selected Athlete'
+                background_normal: 'graphics/buttons/dropdown_athlete.png'
+                background_down: 'graphics/buttons/dropdown_athlete_grau.png'
+
+            TextInput:  # insert first name
+                id: first_name_athlete
+                hint_text: "First Name of Athlete"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                        width: 1
+
+            TextInput:  # insert last name
+                id: last_name_athlete
+                hint_text: "Last Name of Athlete"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                        width: 1
+
+            TextInput:  # insert email
+                id: email_athlete
+                hint_text: "Email Address of Athlete"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                        width: 1
+
+            TextInput:  # insert new password
+                id: password_athlete_new
+                password: True
+                hint_text: "New Password"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                        width: 1
+
+            TextInput:  # insert current password
+                id: password_athlete_current
+                password: True
+                hint_text: "Current Password"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                canvas.before:
+                    Color:
+                        rgba: [1, 1, 1, 1] if self.disabled == False else [1,1,1,.7]
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                        width: 1
+
+            SpinnerWidget:  # insert height
+                id: height_athlete
+                text: 'Input Height of Athlete'
+                #values: root.values_height_athlete
+                background_normal: 'graphics/buttons/dropdown_athlete.png'
+                background_down: 'graphics/buttons/dropdown_athlete_grau.png'
+                on_text:
+                    root.calculate_bmi()
+
+            SpinnerWidget:  # insert weight
+                id: weight_athlete
+                text: 'Input Weight of Athlete'
+                #values: root.values_weight_athlete
+                background_normal: 'graphics/buttons/dropdown_athlete.png'
+                background_down: 'graphics/buttons/dropdown_athlete_grau.png'
+                on_text:
+                    root.calculate_bmi()
+
+            Label:  # display bmi
+                id: bmi_athlete
+                text: "Enter Height and Weight\nto calculate Body-Mass-Index"
+                valign: 'middle'
+                halign: 'center'
+                canvas.before:
+                    Color:
+                        rgba: [0,100,100,.25]
+                    Rectangle:
+                        pos: self.pos
+                        size:self.size
+
+        ImageButton:  #Update-Button
+            pos_hint: {"top": .22, "right": 1}
+            size_hint: 1, .2
+            source: "graphics/buttons/update1.png" if self.state == 'normal' else "graphics/buttons/update1_grau.png"
+            on_release:
+                root.check_data_update()  # call method in EditAthleteAthlete in main.py
+
+        LabelButton:  #Navigation Bar Background
+            pos_hint: {"top": .0925, "right": 1}
+            size_hint: 1, .1
+            canvas.before:
+                Color:
+                    rgb: utils.get_color_from_hex("#fafafa")
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+        #Navigation Bar (3 Image Buttons)
+        GridLayout:
+            cols: 3
+            pos_hint: {"top": .0825, "right": 1}
+            size_hint: 1, .0725
+
+            ImageButton:  # change to TrackWorkoutAthlete
+                source: "graphics/navigation/track_workout_athlete_grau.png" if self.state == 'normal' else "graphics/navigation/track_workout_athlete_grau_down.png"
+                on_release:
+                    app.change_screen("track_workout_athlete", NoTransition())
+
+            ImageButton:  # current screen
+                source: "graphics/navigation/edit_athlete_athlete.png"
+
+            ImageButton:  # change to MainScreenAthlete
+                source: "graphics/navigation/back_athlete_grau.png" if self.state == 'normal' else "graphics/navigation/back_athlete_grau_down.png"
+                on_release:
+                    app.change_screen("main_screen_athlete", CardTransition(direction='up',duration=.3))

@@ -1,0 +1,322 @@
+
+# Screen to track the workouts of the athlete (main.py: TrackWorkoutAthlete)
+<TrackWorkoutAthlete>:
+    on_pre_enter:
+        root.fetch_possible_workouts() # load possible workouts before screen is displayed
+
+    FloatLayout:
+        #background image
+        canvas:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                source: "graphics/background/background_athlete.png"
+
+        GridLayout:
+            cols: 1
+            pos_hint: {"top": 1, "right": 1}
+            size_hint: 1, .4
+
+            Label:  # display ID of athlete
+                id: id_athlete
+                text: 'ID of Athlete'
+                canvas.before:
+                    Color:
+                        rgba: [0,100,100,.25]
+                    Rectangle:
+                        pos: self.pos
+                        size:self.size
+
+            GridLayout:
+                cols: 2
+
+                Label:  # display ID of workout
+                    text: "ID of Workout:"
+
+                SpinnerWidget:  # select workout
+                    id: id_workout
+                    background_normal: 'graphics/buttons/dropdown_athlete_2.png'
+                    background_down: 'graphics/buttons/dropdown_athlete_2_grau.png'
+                    on_text:
+                        root.fetch_workout()  # call method in TrackWorkoutAthlete in main.py
+
+            GridLayout:
+                cols: 2
+
+                SpinnerWidget:  # select training
+                    id: name_training
+                    text: 'Name of Training'
+                    background_normal: 'graphics/buttons/dropdown_athlete_34.png'
+                    background_down: 'graphics/buttons/dropdown_athlete_34_grau.png'
+                    on_text:
+                        name_exercise.disabled = False if self.text != 'Name of Training' else print('')
+                        # call method in TrackWorkoutAthlete in main.py
+                        root.set_training() if self.text != 'Name of Training' else print('')
+                        # call method in TrackWorkoutAthlete in main.py
+                        root.exercises_included() if self.text != 'Name of Training' else print('')
+
+                ImageButton:  # show training description
+                    source: "graphics/buttons/info_athlete.png" if self.state == 'normal' else "graphics/buttons/info_athlete_grau.png"
+                    pos_hint: {"center_x":0.5, "center_y":0.5}
+                    size_hint_y: 0.2
+                    size_hint_x: 0.2
+                    on_release:
+                        root.training_description()   # call method in TrackWorkoutAthlete in main.py
+
+            GridLayout:
+                rows: 2
+                cols: 2
+                size_hint: .8, 1
+
+                Label:  # text ID of training
+                    id: text_id_training
+                    text: "ID of Training"
+                    disabled_color: [1, 1, 1, .7]
+                    canvas.before:
+                        Color:
+                            rgba: [0,100,100,.25]
+                        Rectangle:
+                            pos: self.pos
+                            size:self.size
+
+                Label:  # display ID of training
+                    id: id_training
+                    disabled_color: [1, 1, 1, .7]
+                    canvas.before:
+                        Color:
+                            rgba: [0,100,100,.25]
+                        Rectangle:
+                            pos: self.pos
+                            size:self.size
+
+                Label:  # text ID of exercise
+                    id: text_id_exercise
+                    text: "ID of Exercise"
+                    disabled_color: [1, 1, 1, .7]
+                    canvas.before:
+                        Color:
+                            rgba: [0,100,100,.25]
+                        Rectangle:
+                            pos: self.pos
+                            size:self.size
+
+                Label:  # display ID of exercise
+                    id: id_exercise
+                    disabled_color: [1, 1, 1, .7]
+                    canvas.before:
+                        Color:
+                            rgba: [0,100,100,.25]
+                        Rectangle:
+                            pos: self.pos
+                            size:self.size
+
+            GridLayout:
+                cols: 2
+
+                SpinnerWidget:  # select exercise
+                    id: name_exercise
+                    text: 'Name of Exercise'
+                    background_normal: 'graphics/buttons/dropdown_athlete_34.png'
+                    background_down: 'graphics/buttons/dropdown_athlete_34_grau.png'
+                    on_text:
+                        # call method in TrackWorkoutAthlete in main.py
+                        root.set_exercise() if self.text != 'Name of Exercise' else print('')
+                    disabled_background: 'graphics/buttons/dropdown_athlete_34_grau.png'
+
+                ImageButton:  # show exercise description
+                    source: "graphics/buttons/info_athlete.png" if self.state == 'normal' else "graphics/buttons/info_athlete_grau.png"
+                    pos_hint: {"center_x":0.5, "center_y":0.5}
+                    size_hint_y: 0.2
+                    size_hint_x: 0.2
+                    on_release:
+                        root.exercise_description()  # call method in TrackWorkoutAthlete in main.py
+
+        GridLayout:  # time parameters
+            pos_hint: {"top": .6, "right": 1}
+            size_hint: 1, .2
+            cols: 2
+            rows: 3
+
+            ImageButton:  # select start time and date
+                id: current_date_start
+                source: "graphics/buttons/start_workout_athlete.png" if self.state == 'normal' else "graphics/buttons/start_workout_athlete_grau.png"
+                on_release:
+                    root.start_time()  # call method in TrackWorkoutAthlete in main.py
+
+            ImageButton:  # select end time and date
+                id: current_date_end
+                source: "graphics/buttons/end_workout_athlete.png" if self.state == 'normal' else "graphics/buttons/end_workout_athlete_grau.png"
+                on_release:
+                    root.end_time()  # call method in TrackWorkoutAthlete in main.py
+
+            TextInput:  # insert start date
+                id: date_workout_start
+                hint_text: "Start Date of Workout"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                canvas.before:
+                    Color:
+                        rgba: [1, 1, 1, 1] if self.disabled == False else [1,1,1,.7]
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                        width: 1
+
+            TextInput:
+                id: date_workout_end  # insert end date
+                hint_text: "End Date of Workout"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                canvas.before:
+                    Color:
+                        rgba: [1, 1, 1, 1] if self.disabled == False else [1,1,1,.7]
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                        width: 1
+
+            TextInput:  # insert start time
+                id: time_workout_start
+                hint_text: "Start Time of Workout"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                canvas.before:
+                    Color:
+                        rgba: [1, 1, 1, 1] if self.disabled == False else [1,1,1,.7]
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                        width: 1
+
+            TextInput:  # insert end time
+                id: time_workout_end
+                hint_text: "End Time of Workout"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: 0, 0, 0, 0
+                canvas.before:
+                    Color:
+                        rgba: [1, 1, 1, 1] if self.disabled == False else [1,1,1,.7]
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                        width: 1
+
+        GridLayout:  # additional training parameters
+            cols: 2
+            rows: 2
+            pos_hint: {"top": .35, "right": 1}
+            size_hint: 1, .15
+
+            TextInput:  # insert sets
+                id: sets
+                hint_text: "Sets"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: [1,1,1,0]
+                canvas.before:
+                    Color:
+                        rgba: [1, 1, 1, 1] if self.disabled == False else [1,1,1,.7]
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                        width: 1
+
+            TextInput:  # insert reps
+                id: reps
+                hint_text: "Reps"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: [1,1,1,0]
+                canvas.before:
+                    Color:
+                        rgba: [1, 1, 1, 1] if self.disabled == False else [1,1,1,.7]
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                        width: 1
+
+            TextInput:  # insert weight
+                id: weight
+                hint_text: "Weight [kg]"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: [1,1,1,0]
+                canvas.before:
+                    Color:
+                        rgba: [1, 1, 1, 1] if self.disabled == False else [1,1,1,.7]
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                        width: 1
+
+            TextInput:  # insert distance
+                id: distance
+                hint_text: "Distance [km]"
+                use_bubble: True
+                use_handles: True
+                font_size: '14sp'
+                multiline: False
+                background_color: [1,1,1,0]
+                canvas.before:
+                    Color:
+                        rgba: [1, 1, 1, 1] if self.disabled == False else [1,1,1,.7]
+                    Line:
+                        points: self.x + dp(value=5), self.y + dp(value=10), self.x + self.width - dp(value=5), self.y + dp(value=10)
+                        width: 1
+
+        GridLayout:
+            cols: 2
+            pos_hint: {"top": .22, "right": 1}
+            size_hint: 1, .2
+
+            ImageButton:  # delete workout
+                source: "graphics/buttons/delete2.png" if self.state == 'normal' else "graphics/buttons/delete2_grau.png"
+                on_release:
+                    root.delete()
+
+            ImageButton:  # submit workout
+                id: submit
+                source: "graphics/buttons/submit2.png" if self.state == 'normal' else "graphics/buttons/submit2_grau.png"
+                on_release:
+                    root.check_submit()
+
+        #Navigation Bar Background
+        LabelButton:
+            pos_hint: {"top": .0925, "right": 1}
+            size_hint: 1, .1
+            canvas.before:
+                Color:
+                    rgb: utils.get_color_from_hex("#fafafa")
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+        #Navigation Bar (3 Image Buttons)
+        GridLayout:
+            cols: 3
+            pos_hint: {"top": .0825, "right": 1}
+            size_hint: 1, .0725
+
+            ImageButton:  # current screen
+                source: "graphics/navigation/track_workout_athlete.png"
+
+            ImageButton:  # change to EditAthleteAthlete
+                source: "graphics/navigation/edit_athlete_athlete_grau.png" if self.state == 'normal' else "graphics/navigation/edit_athlete_athlete_grau_down.png"
+                on_release:
+                    app.change_screen("edit_athlete_athlete", NoTransition())
+
+            ImageButton:  # change to MainScreenAthlete
+                source: "graphics/navigation/back_athlete_grau.png" if self.state == 'normal' else "graphics/navigation/back_athlete_grau_down.png"
+                on_release:
+                    app.change_screen("main_screen_athlete", CardTransition(direction='up',duration=.3))

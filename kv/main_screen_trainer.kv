@@ -1,0 +1,79 @@
+
+# Screen that grants access to the different functions of the application (main.py: MainScreenTrainer)
+<MainScreenTrainer>:
+    FloatLayout:
+        # Background color
+        canvas:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                source: "graphics/background/background_trainer.png"
+
+        Image: # TrainTrack Logo
+            pos_hint: {"top": 1, "right": .9}
+            size_hint: .75, .37
+            source: "graphics/logo/LogoText_reduced.png"
+
+        # Screen name
+        Label:
+            text: "MAIN SCREEN TRAINER"
+            pos_hint: {"top": .70, "right": 1}
+            size_hint: 1, .05
+            font_size: '20sp'
+            canvas.before:
+                Color:
+                    rgba: [0,100,100,.25]
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+        # Menu buttons
+        ImageButton:
+            source: "graphics/buttons/add_workout_trainer.png" if self.state == 'normal' else "graphics/buttons/add_workout_trainer_grau.png"
+            pos_hint: {"top": .64, "right": .89}
+            size_hint: .78, .1
+            on_release:
+                app.change_screen("add_workout_trainer",CardTransition(direction='up',duration=.3))
+        ImageButton:
+            source: "graphics/buttons/edit_workout_trainer.png" if self.state == 'normal' else "graphics/buttons/edit_workout_trainer_grau.png"
+            pos_hint: {"top": .53, "right": .89}
+            size_hint: .78, .1
+            on_release:
+                app.change_screen("edit_workout_trainer",CardTransition(direction='up',duration=.3))
+        ImageButton:
+            source: "graphics/buttons/add_athlete_trainer.png" if self.state == 'normal' else "graphics/buttons/add_athlete_trainer_grau.png"
+            pos_hint: {"top": .42, "right": .89}
+            size_hint: .78, .1
+            on_release:
+                app.change_screen("add_athlete_trainer",CardTransition(direction='up',duration=.3))
+        ImageButton:
+            source: "graphics/buttons/edit_athlete_trainer.png" if self.state == 'normal' else "graphics/buttons/edit_athlete_trainer_grau.png"
+            pos_hint: {"top": .31, "right": .89}
+            size_hint: .78, .1
+            on_release:
+                app.change_screen("edit_athlete_trainer",CardTransition(direction='up',duration=.3))
+
+        Label: # display team name
+            id: team_label
+            size: self.size
+            pos: self.pos
+            text: 'Team Trainer'
+            pos_hint: {"top": 1, "left": 1}
+            size_hint: 1, .0625
+            markup: True
+            font_size: '18sp'
+            canvas.before:
+                Color:
+                    rgba: [0,100,100,.25]
+                Rectangle:
+                    pos: self.pos
+                    size:self.size
+
+        # Logout button
+        ImageButton:
+            source: "graphics/buttons/logout_trainer.png" if self.state == 'normal' else "graphics/buttons/logout_trainer_grau.png"
+            pos_hint: {"top": .127, "right": 1}
+            size_hint: 1, .2
+            on_release:
+                root.logout_reset()
+                app.change_screen("home_screen",CardTransition(direction='up',duration=.3))
