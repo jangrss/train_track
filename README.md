@@ -1,4 +1,4 @@
-# train_track <br />
+# TrainTrack <br />
 Main respository for the mobile application "TrainTrack" <br />
 
 ![traintrack_logo](https://github.com/jangrss/train_track/blob/main/graphics/logo/LogoText.png?raw=true)
