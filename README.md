@@ -1,6 +1,8 @@
 # train_track <br />
 Main respository for the mobile application "TrainTrack" <br />
 
+![traintrack_logo](https://github.com/jangrss/train_track/blob/main/graphics/logo/LogoText.png?raw=true)
+
 Setup:
 Programming Language: Python 3.7.5
 Development Environment: PyCharm Community Edition 2019.2.3
